@@ -119,10 +119,16 @@ void * get_physaddr(void * virtualaddr) {
     unsigned long ptindex = (unsigned long)virtualaddr >> 12 & 0x03FF;
  
     unsigned long * pd = (unsigned long *)0xFFFFF000;
-    // Here you need to check whether the PD entry is present.
+    if (!(pd[pdindex] & 1)) {
+    	kprint(0x4, "page table not present.\n");
+    	return 0xffffffff;
+    }
  
     unsigned long * pt = ((unsigned long *)0xFFC00000) + (0x400 * pdindex);
-    // Here you need to check whether the PT entry is present.
+    if (!(pt[ptindex] & 1)) {
+    	kprint(0x4, "page not present.\n");
+    	return 0xffffffff;
+    }
  
     return (void *)((pt[ptindex] & ~0xFFF) + ((unsigned long)virtualaddr & 0xFFF));
 }
