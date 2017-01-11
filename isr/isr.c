@@ -183,7 +183,7 @@ void key(unsigned int sc) {
         if (sc == 0x2a || sc == 0x36) {
             shift = 1;
         } else if (sc == 0x38) {
-            alt = 1; 
+            alt = 1;
         } else if (sc == 0x1d) {
             ctrl = 1;
         } else {
@@ -257,7 +257,7 @@ void key(unsigned int sc) {
         if (sc == 0xaa || sc == 0xb6) {
             shift = 0;
         } else if (sc == 0xb8) {
-            alt = 0; 
+            alt = 0;
         } else if (sc == 0x9d) {
             ctrl = 0;
         }
@@ -269,5 +269,5 @@ void syscall_print(){
 }
 
 void pit_c(){
-    
+    kprint(0x9, "PIT ");
 }

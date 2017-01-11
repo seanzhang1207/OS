@@ -4,6 +4,12 @@
 
 #include "include/portio.h"
 
+void c_sysexit(unsigned int retaddr, unsigned int retstack){
+    sysexit(retaddr, retstack);
+}
+
+
+
 void parse_mtb_info(struct multiboot_info *mtb_info) {
     kprint(0xf, "Parsing Multiboot Boot Information...\n");
     kprint(0x7, "-> flags: ");
@@ -163,10 +169,10 @@ void init(struct multiboot_info *mtb_info, int cpuid_unavailable) {
 
     /* ========== TEST CODE BELOW ========== */
     extern void int_init();
+    int_init();
+
     extern void sysenter_call();
     extern unsigned int syscall_stack;
-
-    int_init();
     if (cpu_has_msr()) {
         wrmsr(0x174, 0x8, 0);
         wrmsr(0x175, syscall_stack + 4096, 0);

@@ -26,6 +26,7 @@ sys_call:
 
 pit:
     pushad
+    call pit_c
     mov al, 0x20
     mov dx, 0xa0
     out dx, al

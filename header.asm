@@ -118,7 +118,7 @@ _reload_CS:
     push ebx
 
     ; now that we have multiboot info pushed onto stack,
-    ; we need to do some chores before calling the kernel.
+    ; we need to do some stuff before calling the kernel.
 
     ; Reprogram the 8259 PIC chip
 
@@ -154,7 +154,10 @@ _reload_CS:
     mov es, ax
     mov fs, ax
     mov gs, ax
-    sysexit
+
+    extern test_schedule_init
+    call test_schedule_init
+    ;sysexit
 
 ; ================[TEST CODE ABOVE]================
 
@@ -164,17 +167,30 @@ global sysenter_call
 test_user:
     mov ecx, esp
     mov edx, _user_ret
+    mov ax, 0x23
+    mov ds, ax
+    mov es, ax
+    mov fs, ax
+    mov gs, ax
+    ;jmp $
     sysenter
 _user_ret:
     jmp test_user
 
 sysenter_call:
-    mov ax, 0x10
-    mov ds, ax
-    mov es, ax
-    mov fs, ax
-    mov gs, ax
-    sti
+    push ebx
+    mov bx, 0x10
+    mov ds, bx
+    mov es, bx
+    mov fs, bx
+    mov gs, bx
+    ;sti
+    mov bx, 0x23
+    mov ds, bx
+    mov es, bx
+    mov fs, bx
+    mov gs, bx
+    pop ebx
     sysexit
 
 sysexit_halt:
